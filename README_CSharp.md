@@ -21,37 +21,42 @@
 
 ```
 ASCE7 vs GB50011/
-├── USCodeTools.csproj             # 项目配置文件
-├── CoreCalculations.cs            # 核心计算逻辑（反应谱和风速转换）
-├── GustEffectFactorCalculations.cs # 风振系数计算逻辑（ASCE 7-16 Section 26.11）
-├── BeamDesignCalculations.cs      # 梁截面设计计算逻辑（ACI 318-25）
-├── ColumnDesignCalculations.cs      # 柱截面设计计算逻辑（ACI 318-25）
-├── CircularColumnDesignCalculations.cs # 圆形柱截面设计计算逻辑（ACI 318-25）
-├── SpectrumViewModel.cs           # 反应谱界面ViewModel
-├── WindConversionViewModel.cs     # 风速转换界面ViewModel
-├── GustEffectFactorViewModel.cs   # 风振系数界面ViewModel
-├── BeamDesignViewModel.cs         # 梁截面设计界面ViewModel
-├── ColumnDesignViewModel.cs       # 柱截面设计界面ViewModel
-├── CircularColumnDesignViewModel.cs # 圆形柱截面设计界面ViewModel
-├── MainWindow.xaml                # 主窗口界面
-├── MainWindow.xaml.cs             # 主窗口代码后置
-├── SpectrumView.xaml              # 反应谱比较界面
-├── SpectrumView.xaml.cs           # 反应谱界面代码后置
-├── WindConversionView.xaml        # 风速转换界面
-├── WindConversionView.xaml.cs     # 风速转换界面代码后置
-├── GustEffectFactorView.xaml      # 风振系数界面
-├── GustEffectFactorView.xaml.cs   # 风振系数界面代码后置
-├── BeamDesignView.xaml            # 梁截面设计界面
-├── BeamDesignView.xaml.cs         # 梁截面设计界面代码后置
-├── ColumnDesignView.xaml          # 柱截面设计界面
-├── ColumnDesignView.xaml.cs       # 柱截面设计界面代码后置
-├── CircularColumnDesignView.xaml  # 圆形柱截面设计界面
-├── CircularColumnDesignView.xaml.cs # 圆形柱截面设计界面代码后置
-├── WeChatView.xaml               # 关注公众号界面
-├── WeChatView.xaml.cs            # 关注公众号界面代码后置
-├── Styles.xaml                    # Fluent Design样式
-├── App.xaml                       # 应用程序资源
-└── App.xaml.cs                    # 应用程序入口
+├── UsCodeTools.csproj                 # 项目配置文件
+├── CoreCalculations.cs                # 核心计算逻辑（反应谱和风速转换）
+├── GustEffectFactorCalculations.cs    # 风振系数计算逻辑（ASCE 7-16 Section 26.11）
+├── BeamDesignCalculations.cs          # 梁截面设计计算逻辑（ACI 318-25）
+├── ColumnDesignCalculations.cs        # 矩形柱设计计算逻辑（ACI 318-19）
+├── CircularColumnDesignCalculations.cs # 圆形柱设计计算逻辑（ACI 318-19）
+├── PunchingShearCalculations.cs       # 双向板抗冲切计算逻辑（ACI 318-19）
+├── BooleanToVisibilityConverter.cs    # 布尔值到可见性转换器
+├── SpectrumViewModel.cs               # 反应谱界面ViewModel
+├── WindConversionViewModel.cs         # 风速转换界面ViewModel
+├── GustEffectFactorViewModel.cs       # 风振系数界面ViewModel
+├── BeamDesignViewModel.cs             # 梁截面设计界面ViewModel
+├── ColumnDesignViewModel.cs           # 矩形柱设计界面ViewModel
+├── CircularColumnDesignViewModel.cs   # 圆形柱设计界面ViewModel
+├── PunchingShearViewModel.cs          # 双向板抗冲切界面ViewModel
+├── MainWindow.xaml                    # 主窗口界面
+├── MainWindow.xaml.cs                 # 主窗口代码后置
+├── SpectrumView.xaml                  # 反应谱比较界面
+├── SpectrumView.xaml.cs               # 反应谱界面代码后置
+├── WindConversionView.xaml            # 风速转换界面
+├── WindConversionView.xaml.cs         # 风速转换界面代码后置
+├── GustEffectFactorView.xaml          # 风振系数界面
+├── GustEffectFactorView.xaml.cs       # 风振系数界面代码后置
+├── BeamDesignView.xaml                # 梁截面设计界面
+├── BeamDesignView.xaml.cs             # 梁截面设计界面代码后置
+├── ColumnDesignView.xaml              # 矩形柱设计界面
+├── ColumnDesignView.xaml.cs           # 矩形柱设计界面代码后置
+├── CircularColumnDesignView.xaml      # 圆形柱设计界面
+├── CircularColumnDesignView.xaml.cs   # 圆形柱设计界面代码后置
+├── PunchingShearView.xaml             # 双向板抗冲切界面
+├── PunchingShearView.xaml.cs          # 双向板抗冲切界面代码后置
+├── WeChatView.xaml                    # 关注公众号界面
+├── WeChatView.xaml.cs                 # 关注公众号界面代码后置
+├── Styles.xaml                        # Fluent Design样式
+├── App.xaml                           # 应用程序资源
+└── App.xaml.cs                        # 应用程序入口
 ```
 
 ---
@@ -255,106 +260,6 @@ public static (double avRequired, double avProvided, double sMax, List<string> p
 
 ---
 
-## 柱截面设计计算接口 (ColumnDesignCalculations.cs)
-
-### ACI 318-25 矩形柱截面设计
-
-#### MaterialProperties
-
-```csharp
-public class MaterialProperties
-```
-
-- **功能**: 柱材料属性
-- **属性**:
-  - `Fc` - 混凝土抗压强度（psi）
-  - `Fy` - 钢筋屈服强度（psi）
-  - `Es` - 钢筋弹性模量（psi，默认29000000）
-
-#### ColumnSection
-
-```csharp
-public class ColumnSection
-```
-
-- **功能**: 柱截面参数
-- **属性**:
-  - `B` - 截面宽度（in）
-  - `H` - 截面高度（in）
-  - `Cover` - 保护层厚度（in）
-  - `BarSize` - 纵筋规格（如"#8"）
-  - `TieSize` - 箍筋规格（如"#4"）
-  - `Nx` - 宽度方向纵筋数量（顶部/底部行）
-  - `Ny` - 高度方向纵筋数量（侧面行）
-  - `TieLegsX` - 宽度方向箍筋肢数（默认4）
-  - `TieLegsY` - 高度方向箍筋肢数（默认4）
-- **派生属性**:
-  - `Ag` - 毛截面面积（in²）
-  - `BarArea` - 单根钢筋面积（in²）
-  - `BarDiameter` - 钢筋直径（in）
-  - `TieDiameter` - 箍筋直径（in）
-  - `TotalBars` - 总钢筋数量
-  - `Ast` - 总钢筋面积（in²）
-  - `SpacingX` - 宽度方向纵筋中心距
-  - `SpacingY` - 高度方向箍筋中心距
-
-#### DesignResult
-
-```csharp
-public class DesignResult
-```
-
-- **功能**: 柱设计结果
-- **属性**:
-  - `NominalCurveX` - X轴名义强度曲线
-  - `DesignCurveX` - X轴设计强度曲线
-  - `UserPointX` - 用户荷载点（X轴）
-  - `IsSafeX` - X轴方向是否安全
-  - `NominalCurveY` - Y轴名义强度曲线
-  - `DesignCurveY` - Y轴设计强度曲线
-  - `UserPointY` - 用户荷载点（Y轴）
-  - `IsSafeY` - Y轴方向是否安全
-
----
-
-## 圆形柱截面设计计算接口 (CircularColumnDesignCalculations.cs)
-
-### ACI 318-25 圆形柱截面设计
-
-#### TieType
-
-```csharp
-public enum TieType
-```
-
-- **功能**: 箍筋类型枚举
-- **选项**:
-  - `Tied` - 绑扎箍筋
-  - `Spiral` - 螺旋箍筋
-
-#### CircularColumnSection
-
-```csharp
-public class CircularColumnSection
-```
-
-- **功能**: 圆形柱截面参数
-- **属性**:
-  - `Diameter` - 柱直径（in）
-  - `Cover` - 保护层厚度（in）
-  - `BarSize` - 纵筋规格（如"#8"）
-  - `TieSize` - 箍筋规格（如"#4"）
-  - `NumBars` - 纵筋数量（最少6根）
-  - `TieType` - 箍筋类型（绑扎或螺旋）
-- **派生属性**:
-  - `Ag` - 毛截面面积（in²）
-  - `BarArea` - 单根钢筋面积（in²）
-  - `BarDiameter` - 钢筋直径（in）
-  - `TieDiameter` - 箍筋直径（in）
-  - `Ast` - 总钢筋面积（in²）
-
----
-
 ## ViewModel 接口
 
 ### SpectrumViewModel (反应谱界面)
@@ -503,7 +408,7 @@ public class CircularColumnSection
 - **箍筋规格范围**: 支持 #3-#8 的箍筋规格选择
 - **界面优化**: 输入字段合并布局，节约界面空间
 
-### ColumnDesignViewModel (柱截面设计界面)
+### ColumnDesignViewModel (矩形柱设计界面)
 
 #### 属性
 
@@ -514,24 +419,30 @@ public class CircularColumnSection
 | `B`                   | `double` | 截面宽度（in）     |
 | `H`                   | `double` | 截面高度（in）     |
 | `Cover`               | `double` | 保护层厚度（in）    |
-| `BarSize`             | `string` | 纵筋规格         |
-| `TieSize`             | `string` | 箍筋规格         |
-| `Nx`                  | `int`    | 宽度方向纵筋数量   |
-| `Ny`                  | `int`    | 高度方向纵筋数量   |
-| `TieLegsX`           | `int`    | 宽度方向箍筋肢数   |
-| `TieLegsY`           | `int`    | 高度方向箍筋肢数   |
-| `Mux`                 | `double` | X轴弯矩（kip-in）  |
-| `Muy`                 | `double` | Y轴弯矩（kip-in）  |
-| `Pu`                  | `double` | 轴力（kips）       |
-| `InteractionResult`   | `string` | 相互作用结果显示文本 |
+| `SelectedBarSize`     | `string` | 纵筋规格         |
+| `SelectedTieSize`     | `string` | 箍筋规格         |
+| `TieLegsX`            | `int`    | X方向箍筋肢数      |
+| `TieLegsY`            | `int`    | Y方向箍筋肢数      |
+| `Nx`                  | `int`    | 宽度方向纵筋根数     |
+| `Ny`                  | `int`    | 高度方向纵筋根数     |
+| `Pu`                  | `double` | 设计轴力（kips）   |
+| `Mux`                 | `double` | X轴弯矩（kip-ft） |
+| `Muy`                 | `double` | Y轴弯矩（kip-ft） |
+| `Vux`                 | `double` | X方向剪力（kips）  |
+| `Vuy`                 | `double` | Y方向剪力（kips）  |
 | `DesignProcess`       | `string` | 设计过程详细文本     |
+| `SeriesX`             | `ISeries[]` | X轴P-M曲线图表数据 |
+| `SeriesY`             | `ISeries[]` | Y轴P-M曲线图表数据 |
+| `RebarLocations`      | `ObservableCollection<Point>` | 钢筋位置预览 |
+| `RebarInfo`           | `string` | 钢筋信息显示文本     |
 
 #### 集合属性
 
 | 属性名                  | 类型             | 说明              |
 | -------------------- | -------------- | --------------- |
-| `BarSizeOptions`     | `List<string>` | 纵筋规格选项列表      |
-| `TieSizeOptions`     | `List<string>` | 箍筋规格选项列表      |
+| `BarSizeOptions`     | `List<string>` | 纵筋规格选项列表（#3-#18） |
+| `TieLegOptions`      | `List<int>`    | 箍筋肢数选项列表（2-12） |
+| `BarCountOptions`    | `List<int>`    | 纵筋根数选项列表（2-12） |
 
 #### 命令
 
@@ -539,7 +450,16 @@ public class CircularColumnSection
 | ------------------ | ---------- | ----------- |
 | `CalculateCommand` | `ICommand` | 执行柱截面设计计算命令 |
 
-### CircularColumnDesignViewModel (圆形柱截面设计界面)
+#### 特性
+
+- **双向弯曲验算**: 支持X轴和Y轴双向弯曲承载力验算
+- **P-M交互图**: 实时绘制名义曲线和设计曲线
+- **钢筋预览**: 可视化显示截面钢筋布置
+- **构造验算**: 自动验算配筋率、最小根数、纵筋间距
+
+---
+
+### CircularColumnDesignViewModel (圆形柱设计界面)
 
 #### 属性
 
@@ -547,31 +467,313 @@ public class CircularColumnSection
 | --------------------- | -------- | ------------ |
 | `Fc`                  | `double` | 混凝土抗压强度（psi） |
 | `Fy`                  | `double` | 钢筋屈服强度（psi）  |
-| `Diameter`            | `double` | 柱直径（in）       |
+| `Diameter`            | `double` | 柱直径（in）      |
 | `Cover`               | `double` | 保护层厚度（in）    |
-| `BarSize`             | `string` | 纵筋规格         |
-| `TieSize`             | `string` | 箍筋规格         |
-| `NumBars`             | `int`    | 纵筋数量（最少6根） |
-| `TieType`             | `string` | 箍筋类型（绑扎/螺旋） |
-| `Pu`                  | `double` | 轴力（kips）       |
-| `DesignResult`         | `string` | 设计结果显示文本     |
+| `SelectedBarSize`     | `string` | 纵筋规格         |
+| `SelectedTieSize`     | `string` | 箍筋规格         |
+| `NumBars`             | `int`    | 纵筋根数（最少6根）   |
+| `SelectedTieType`     | `TieType` | 箍筋类型（绑扎/螺旋） |
+| `Pu`                  | `double` | 设计轴力（kips）   |
+| `Mux`                 | `double` | X轴弯矩（kip-ft） |
+| `Muy`                 | `double` | Y轴弯矩（kip-ft） |
+| `Vux`                 | `double` | X方向剪力（kips）  |
+| `Vuy`                 | `double` | Y方向剪力（kips）  |
 | `DesignProcess`       | `string` | 设计过程详细文本     |
+| `SeriesX`             | `ISeries[]` | P-M曲线图表数据   |
+| `RebarLocations`      | `ObservableCollection<RebarVisualItem>` | 钢筋位置预览 |
+| `RebarInfo`           | `string` | 截面信息显示文本     |
 
 #### 集合属性
 
 | 属性名                  | 类型             | 说明              |
 | -------------------- | -------------- | --------------- |
-| `BarSizeOptions`     | `List<string>` | 纵筋规格选项列表      |
-| `TieSizeOptions`     | `List<string>` | 箍筋规格选项列表      |
-| `TieTypeOptions`     | `List<string>` | 箍筋类型选项列表      |
+| `BarSizes`           | `List<string>` | 纵筋规格选项列表（#3-#18） |
+| `TieTypes`           | `List<TieType>` | 箍筋类型选项（绑扎/螺旋） |
+| `NumBarsOptions`     | `List<int>`    | 纵筋根数选项列表（6-20） |
 
 #### 命令
 
 | 命令名                | 类型         | 说明          |
 | ------------------ | ---------- | ----------- |
-| `CalculateCommand` | `ICommand` | 执行圆形柱截面设计计算命令 |
+| `CalculateCommand` | `ICommand` | 执行圆形柱设计计算命令 |
 
-### WeChatView (关注公众号界面)
+#### 特性
+
+- **合成弯矩**: 自动计算合成弯矩 Mu = √(Mux² + Muy²)
+- **各向同性**: 圆形柱各方向承载力相同
+- **箍筋类型**: 支持绑扎箍筋和螺旋箍筋两种类型
+- **圆形截面P-M图**: 专门针对圆形截面的交互图计算
+
+---
+
+### PunchingShearViewModel (双向板抗冲切界面)
+
+#### 属性
+
+| 属性名                   | 类型       | 说明           |
+| --------------------- | -------- | ------------ |
+| `H`                   | `double` | 楼板厚度（in）     |
+| `Cover`               | `double` | 保护层厚度（in）    |
+| `SelectedBarSize`     | `string` | 板钢筋规格        |
+| `C1`                  | `double` | 柱尺寸c1（in）    |
+| `C2`                  | `double` | 柱尺寸c2（in）    |
+| `ColumnLocation`      | `string` | 柱位置（中柱/边柱/角柱） |
+| `Vu`                  | `double` | 设计剪力（kips）   |
+| `Msc`                 | `double` | 不平衡弯矩（kip-ft） |
+| `Fc`                  | `double` | 混凝土强度（psi）   |
+| `Lambda`              | `double` | 轻质混凝土系数      |
+| `Fyt`                 | `double` | 箍筋屈服强度（psi）  |
+| `StudFyt`             | `double` | 栓钉屈服强度（psi）  |
+| `ReinforcementType`   | `string` | 抗剪钢筋类型       |
+| `StudSize`            | `string` | 栓钉规格         |
+| `StudsPerPerimeter`   | `int`    | 每周栓钉数量       |
+| `StudSpacing`         | `double` | 栓钉间距（in）     |
+| `ShowReinforcementInputs` | `bool` | 是否显示抗剪钢筋输入 |
+| `ResultSummary`       | `string` | 结果摘要         |
+| `ReinforcementResult` | `string` | 抗剪钢筋设计结果     |
+| `DesignProcess`       | `string` | 设计过程详细文本     |
+| `SectionProperties`   | `string` | 临界截面属性显示     |
+| `DemandVsCapacity`    | `string` | 需求与承载力显示     |
+
+#### 集合属性
+
+| 属性名                  | 类型             | 说明              |
+| -------------------- | -------------- | --------------- |
+| `BarSizeOptions`     | `List<string>` | 钢筋规格选项列表（#3-#11） |
+| `ColumnLocationOptions` | `List<string>` | 柱位置选项（中柱/边柱/角柱） |
+| `ReinforcementTypeOptions` | `List<string>` | 抗剪钢筋类型选项 |
+| `StudSizeOptions`    | `List<string>` | 栓钉规格选项列表（#3-#8） |
+| `StudsPerPerimeterOptions` | `List<int>` | 每周栓钉数量选项（2-16） |
+
+#### 命令
+
+| 命令名                | 类型         | 说明          |
+| ------------------ | ---------- | ----------- |
+| `CalculateCommand` | `ICommand` | 执行抗冲切验算命令 |
+
+#### 特性
+
+- **三种柱位置**: 支持中柱、边柱、角柱三种情况
+- **尺寸效应系数**: 自动计算ACI 318-19尺寸效应系数λs
+- **抗剪钢筋设计**: 支持抗剪栓钉和箍筋两种抗剪钢筋
+- **构造要求检查**: 自动检查箍筋构造要求和尺寸效应豁免条件
+
+---
+
+## 柱设计计算接口 (ColumnDesignCalculations.cs)
+
+### ACI 318-19 矩形柱设计
+
+#### CheckColumn
+
+```csharp
+public static DesignResult CheckColumn(
+    double pu, double mux, double muy, double vux, double vuy,
+    MaterialProperties mat, ColumnSection sec)
+```
+
+- **功能**: 矩形柱双向偏压设计验算
+- **参数**:
+  - `pu` - 设计轴力（kips）
+  - `mux` - X轴弯矩（kip-ft）
+  - `muy` - Y轴弯矩（kip-ft）
+  - `vux` - X方向剪力（kips）
+  - `vuy` - Y方向剪力（kips）
+  - `mat` - 材料属性
+  - `sec` - 截面属性
+- **返回**: 设计结果对象，包含P-M曲线、验算结果、详细报告
+
+#### ColumnSection 类
+
+| 属性         | 类型       | 说明               |
+| ---------- | -------- | ---------------- |
+| `B`        | `double` | 截面宽度（in）         |
+| `H`        | `double` | 截面高度（in）         |
+| `Cover`    | `double` | 保护层厚度（in）        |
+| `BarSize`  | `string` | 纵筋规格             |
+| `TieSize`  | `string` | 箍筋规格             |
+| `Nx`       | `int`    | 宽度方向纵筋根数         |
+| `Ny`       | `int`    | 高度方向纵筋根数         |
+| `TieLegsX` | `int`    | X方向箍筋肢数          |
+| `TieLegsY` | `int`    | Y方向箍筋肢数          |
+| `Ag`       | `double` | 毛截面面积（计算属性）      |
+| `Ast`      | `double` | 纵筋总面积（计算属性）      |
+| `TotalBars`| `int`    | 总纵筋根数（计算属性）      |
+
+#### DesignResult 类
+
+| 属性              | 类型                        | 说明            |
+| --------------- | ------------------------- | ------------- |
+| `NominalCurveX` | `List<InteractionPoint>`  | X轴名义P-M曲线     |
+| `DesignCurveX`  | `List<InteractionPoint>`  | X轴设计P-M曲线     |
+| `UserPointX`    | `InteractionPoint`        | X轴用户荷载点       |
+| `IsSafeX`       | `bool`                    | X轴是否安全        |
+| `NominalCurveY` | `List<InteractionPoint>`  | Y轴名义P-M曲线     |
+| `DesignCurveY`  | `List<InteractionPoint>`  | Y轴设计P-M曲线     |
+| `UserPointY`    | `InteractionPoint`        | Y轴用户荷载点       |
+| `IsSafeY`       | `bool`                    | Y轴是否安全        |
+| `Report`        | `string`                  | 详细设计报告        |
+
+#### 计算内容
+
+1. **配筋率验算**: 验算配筋率是否在1%-8%范围内
+2. **最小根数验算**: 矩形柱最少4根纵筋
+3. **纵筋间距验算**: 最小中心距 max(1.5d, 1.5in)
+4. **P-M承载力验算**: 双向弯曲承载力验算
+5. **抗剪验算**: 计算混凝土抗剪承载力和箍筋需求
+6. **箍筋构造验算**: 最大间距、最小配箍率等
+
+---
+
+## 圆形柱设计计算接口 (CircularColumnDesignCalculations.cs)
+
+### ACI 318-19 圆形柱设计
+
+#### CheckColumn
+
+```csharp
+public static ColumnDesignCalculations.DesignResult CheckColumn(
+    double Pu, double Mux, double Muy, double Vux, double Vuy,
+    ColumnDesignCalculations.MaterialProperties mat, CircularColumnSection sec)
+```
+
+- **功能**: 圆形柱双向偏压设计验算
+- **参数**:
+  - `Pu` - 设计轴力（kips）
+  - `Mux` - X轴弯矩（kip-ft）
+  - `Muy` - Y轴弯矩（kip-ft）
+  - `Vux` - X方向剪力（kips）
+  - `Vuy` - Y方向剪力（kips）
+  - `mat` - 材料属性
+  - `sec` - 圆形截面属性
+- **返回**: 设计结果对象
+
+#### CircularColumnSection 类
+
+| 属性          | 类型        | 说明               |
+| ----------- | --------- | ---------------- |
+| `Diameter`  | `double`  | 柱直径（in）          |
+| `Cover`     | `double`  | 保护层厚度（in）        |
+| `BarSize`   | `string`  | 纵筋规格             |
+| `TieSize`   | `string`  | 箍筋规格             |
+| `NumBars`   | `int`     | 纵筋根数（最少6根）       |
+| `TieType`   | `TieType` | 箍筋类型（绑扎/螺旋）      |
+| `Ag`        | `double`  | 毛截面面积（计算属性）      |
+| `Ast`       | `double`  | 纵筋总面积（计算属性）      |
+
+#### TieType 枚举
+
+| 值         | 说明    |
+| --------- | ----- |
+| `Tied`    | 绑扎箍筋  |
+| `Spiral`  | 螺旋箍筋  |
+
+#### 计算特点
+
+- **合成弯矩**: Mu = √(Mux² + Muy²)
+- **各向同性**: 圆形柱各方向承载力相同，只需验算一个方向
+- **螺旋箍筋**: 螺旋箍筋柱的φ系数为0.75（绑扎为0.65）
+- **圆形截面P-M图**: 采用圆形截面应力分布计算
+
+---
+
+## 双向板抗冲切计算接口 (PunchingShearCalculations.cs)
+
+### ACI 318-19 双向板抗冲切验算
+
+#### PerformDesign
+
+```csharp
+public static DesignResult PerformDesign(InputParameters input)
+```
+
+- **功能**: 执行双向板抗冲切完整设计
+- **参数**: `input` - 输入参数对象
+- **返回**: 设计结果对象
+
+#### InputParameters 类
+
+| 属性                    | 类型                     | 说明            |
+| --------------------- | ---------------------- | ------------- |
+| `H`                   | `double`               | 楼板厚度（in）      |
+| `Cover`               | `double`               | 保护层厚度（in）     |
+| `BarDiameter`         | `double`               | 钢筋直径（in）      |
+| `C1`                  | `double`               | 柱尺寸c1（in）     |
+| `C2`                  | `double`               | 柱尺寸c2（in）     |
+| `Location`            | `ColumnLocation`       | 柱位置           |
+| `Vu`                  | `double`               | 设计剪力（lbs）     |
+| `Msc`                 | `double`               | 不平衡弯矩（lb-in）  |
+| `Fc`                  | `double`               | 混凝土强度（psi）    |
+| `Lambda`              | `double`               | 轻质混凝土系数       |
+| `Fyt`                 | `double`               | 抗剪钢筋屈服强度（psi） |
+| `ReinforcementType`   | `ShearReinforcementType` | 抗剪钢筋类型     |
+| `StudArea`            | `double`               | 单根栓钉面积（in²）   |
+| `StudsPerPerimeter`   | `int`                  | 每周栓钉数量        |
+| `StudSpacing`         | `double`               | 栓钉间距（in）      |
+
+#### ColumnLocation 枚举
+
+| 值          | 说明  |
+| ---------- | --- |
+| `Interior` | 中柱  |
+| `Edge`     | 边柱  |
+| `Corner`   | 角柱  |
+
+#### ShearReinforcementType 枚举
+
+| 值               | 说明     |
+| --------------- | ------ |
+| `None`          | 无抗剪钢筋  |
+| `Stirrups`     | 箍筋     |
+| `HeadedStuds`  | 抗剪栓钉   |
+
+#### CriticalSectionProperties 类
+
+| 属性        | 类型       | 说明              |
+| --------- | -------- | --------------- |
+| `D`       | `double` | 有效高度            |
+| `B1`      | `double` | 临界截面尺寸b1       |
+| `B2`      | `double` | 临界截面尺寸b2       |
+| `Bo`      | `double` | 临界周长            |
+| `Ac`      | `double` | 临界面积            |
+| `Jc`      | `double` | 极惯性矩            |
+| `CAB`     | `double` | 形心位置cAB        |
+| `CCD`     | `double` | 形心位置cCD        |
+| `GammaV`  | `double` | 剪力分配系数γv       |
+| `GammaF`  | `double` | 弯矩分配系数γf       |
+
+#### DesignResult 类
+
+| 属性                   | 类型                        | 说明         |
+| -------------------- | ------------------------- | ---------- |
+| `IsSectionAdequate`  | `bool`                    | 截面尺寸是否满足  |
+| `NeedsReinforcement` | `bool`                    | 是否需要抗剪钢筋  |
+| `Vu_demand`          | `double`                  | 设计剪应力需求   |
+| `Vc_concrete`        | `double`                  | 混凝土抗剪承载力  |
+| `PhiVc`              | `double`                  | 设计抗剪承载力   |
+| `Vs_required`        | `double`                  | 所需抗剪钢筋贡献  |
+| `Vs_provided`        | `double`                  | 提供抗剪钢筋贡献  |
+| `PhiVn`              | `double`                  | 总设计抗剪承载力  |
+| `Vmax`               | `double`                  | 最大允许剪应力   |
+| `LambdaS`            | `double`                  | 尺寸效应系数    |
+| `Section`            | `CriticalSectionProperties` | 临界截面属性   |
+| `DesignProcess`      | `List<string>`            | 设计过程步骤    |
+| `ResultSummary`      | `string`                  | 结果摘要      |
+| `ReinforcementResult`| `string`                  | 抗剪钢筋设计结果  |
+
+#### 计算步骤
+
+1. **临界截面属性计算**: 计算d、bo、Jc、γv等
+2. **设计剪应力需求**: vu = Vu/Ac + γv·Msc·cAB/Jc
+3. **尺寸效应系数**: λs = √(2/(1 + d/10))
+4. **混凝土抗剪承载力**: 取三个公式最小值
+5. **截面尺寸验算**: vu ≤ φ·vmax
+6. **抗冲切验算**: vu ≤ φ·vc
+7. **抗剪钢筋设计**: 计算所需抗剪钢筋
+
+---
+
+## WeChatView (关注公众号界面)
 
 #### 功能
 
@@ -593,11 +795,12 @@ public class CircularColumnSection
 
 1. **反应谱比较** - 中美规范地震反应谱对比分析
 2. **风速转换** - ASCE7风速转换为GB50009基本风压
-3. **风振系数** - ASCE 7-16 Section 26.11风振系数计算
-4. **单筋混凝土梁** - ACI 318-25梁截面设计
-5. **混凝土矩形柱** - ACI 318-25矩形柱截面设计
-6. **混凝土圆形柱** - ACI 318-25圆形柱截面设计
-7. **关注公众号** - 显示公众号二维码
+3. **阵风响应因子G** - ASCE 7-16 Section 26.11风振系数计算
+4. **单筋混凝土梁** - ACI 318-25梁截面受弯受剪设计
+5. **混凝土矩形柱** - ACI 318-19矩形柱双向偏压设计（P-M交互图、抗剪验算）
+6. **混凝土圆形柱** - ACI 318-19圆形柱双向偏压设计（支持螺旋箍筋）
+7. **双向板抗冲切** - ACI 318-19板柱节点抗冲切验算（支持抗剪栓钉/箍筋）
+8. **关注公众号** - 显示公众号二维码
 
 ---
 

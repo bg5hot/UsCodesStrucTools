@@ -45,6 +45,12 @@ namespace SpectrumComparison
             contentControl.Content = new CircularColumnDesignView();
         }
 
+        private void BtnPunchingShear_Click(object sender, RoutedEventArgs e)
+        {
+            contentControl.ContentTemplate = (DataTemplate)FindResource("PunchingShearViewTemplate");
+            contentControl.Content = new PunchingShearView();
+        }
+
         private void BtnWeChat_Click(object sender, RoutedEventArgs e)
         {
             contentControl.ContentTemplate = (DataTemplate)FindResource("WeChatViewTemplate");

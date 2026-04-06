@@ -5,6 +5,7 @@
 dist/
 build/
 *.exe
+*.zip
 
 # ÒÀÀµÎÄ¼ş
 requirements.txt

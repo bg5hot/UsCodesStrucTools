@@ -29,6 +29,9 @@
         <DataTemplate x:Key="CircularColumnDesignViewTemplate">
             <local:CircularColumnDesignView/>
         </DataTemplate>
+        <DataTemplate x:Key="PunchingShearViewTemplate">
+            <local:PunchingShearView/>
+        </DataTemplate>
         <DataTemplate x:Key="WeChatViewTemplate">
             <local:WeChatView/>
         </DataTemplate>
@@ -92,6 +95,14 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xEA3B;" FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="0,0,12,0" Foreground="{StaticResource FluentBlueBrush}"/>
                         <TextBlock Text="混凝土圆形柱" FontSize="14" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="btnPunchingShear" Click="BtnPunchingShear_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                        HorizontalContentAlignment="Left" Padding="16,12" Margin="8,4,8,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE80A;" FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="0,0,12,0" Foreground="{StaticResource FluentBlueBrush}"/>
+                        <TextBlock Text="双向板抗冲切" FontSize="14" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 

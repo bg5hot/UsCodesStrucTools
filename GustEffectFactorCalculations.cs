@@ -71,14 +71,14 @@ namespace SpectrumComparison
             if (isRigid)
             {
                 // --- 步骤4 (刚性): 计算 G ---
-                double num = 1 + 0.7 * gQ * iZBar * q;
-                double den = 1 + 0.7 * gV * iZBar;
+                double num = 1 + 1.7 * gQ * iZBar * q; //asce7-16 式26.11-6中原文为0.7，勘误后为1.7
+                double den = 1 + 1.7 * gV * iZBar;
                 double g = 0.925 * (num / den);
                 result.G = g;
 
                 process.Add($"【4. 计算刚性建筑阵风因子 G】");
-                process.Add($"  G = 0.925 × [(1 + 0.7 × gQ × I_z̄ × Q) / (1 + 0.7 × gv × I_z̄)]");
-                process.Add($"  G = 0.925 × [(1 + 0.7×3.4×{iZBar:F4}×{q:F4}) / (1 + 0.7×3.4×{iZBar:F3})]");
+                process.Add($"  G = 0.925 × [(1 + 1.7 × gQ × I_z̄ × Q) / (1 + 1.7 × gv × I_z̄)]");
+                process.Add($"  G = 0.925 × [(1 + 1.7×3.4×{iZBar:F4}×{q:F4}) / (1 + 1.7×3.4×{iZBar:F3})]");
                 process.Add($"  G = {g:F3}");
             }
             else
