@@ -173,50 +173,58 @@ namespace SpectrumComparison
             double totalArea = areaSides + areaFront;
 
             double momentSides = areaSides * (b1 / 2.0);
-            double momentFront = areaFront * b1;
+            //double momentFront = areaFront * b1;
 
-            double cCD = (momentSides + momentFront) / totalArea;
-            double cAB = b1 - cCD;
+            double cAB = momentSides / totalArea;
+            double cCD = b1 - cAB;
 
             return (cAB, cCD);
         }
 
         private static double CalculateJcEdge(double c1, double c2, double d, double cAB, double cCD)
         {
-            double b1 = c1 + d / 2.0;
-            double b2 = c2 + d;
+            //double b1 = c1 + d / 2.0;
+            //double b2 = c2 + d;
 
-            double I_sides = 2 * (d * Math.Pow(b1, 3) / 12.0 + b1 * d * Math.Pow(cCD - b1 / 2.0, 2));
-            double I_torsion = b1 * Math.Pow(d, 3) / 6.0;
-            double I_front = b2 * d * Math.Pow(cAB, 2);
+            //double I_sides = 2 * (d * Math.Pow(b1, 3) / 12.0 + b1 * d * Math.Pow(cCD - b1 / 2.0, 2));
+            //double I_torsion = b1 * Math.Pow(d, 3) / 6.0;
+            //double I_front = b2 * d * Math.Pow(cAB, 2);
+
+            //ADPT
+            double I_torsion = (c1 + d / 2.0) * Math.Pow(d, 3) / 6.0;
+            double I_front = d * (c2 + d) * Math.Pow(cAB, 2);
+            double I_sides = 2 * d * (Math.Pow(cAB, 3) + Math.Pow(cCD, 3)) / 3.0;
 
             return I_sides + I_torsion + I_front;
         }
 
         private static (double cAB, double cCD) CalculateCentroidCorner(double b1, double b2, double d)
         {
-            double area1 = b1 * d;
-            double area2 = b2 * d;
-            double totalArea = area1 + area2;
+            // b1 = c1 + d/2
+            // b2 = c2 + d/2
+            // double area1 = b1 * d;
+            // double area2 = b2 * d;
+            // double totalArea = area1 + area2;
 
-            double moment1 = area1 * (b1 / 2.0);
-            double moment2 = area2 * b1;
+            //double moment1 = area1 * (b1 / 2.0);
+            // double moment2 = area2 * b1;
 
-            double cCD = (moment1 + moment2) / totalArea;
-            double cAB = b1 - cCD;
+            double cAB = b1 * b1 / 2.0 / (b1 + b2);
+            double cCD = b1 - cAB;
 
             return (cAB, cCD);
         }
 
         private static double CalculateJcCorner(double c1, double c2, double d, double cAB, double cCD)
         {
-            double b1 = c1 + d / 2.0;
-            double b2 = c2 + d / 2.0;
+            //double b1 = c1 + d / 2.0;
+            //double b2 = c2 + d / 2.0;
 
-            double J1 = d * Math.Pow(b1, 3) / 12.0 + b1 * Math.Pow(d, 3) / 12.0 + b1 * d * Math.Pow(cCD - b1 / 2.0, 2);
-            double J2 = b2 * Math.Pow(d, 3) / 12.0 + b2 * d * Math.Pow(cAB, 2);
+            double J1 = (c1 + d / 2.0) * Math.Pow(d, 3) / 12.0;
+            double J2 = d * (Math.Pow(cAB, 3) + Math.Pow(cCD, 3)) / 3.0;
+            double J3 = d * (c2 + d / 2.0) * Math.Pow(cAB, 2);
 
-            return J1 + J2;
+            return J1 + J2 + J3;    
         }
 
         public static double CalculateSizeEffectFactor(double d)
