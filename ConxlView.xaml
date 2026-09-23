@@ -1,0 +1,430 @@
+<UserControl x:Class="SpectrumComparison.ConxlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SpectrumComparison"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="1200">
+
+    <UserControl.DataContext>
+        <local:ConxlViewModel/>
+    </UserControl.DataContext>
+
+    <Grid Background="{StaticResource FluentBackgroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left: Input Parameters -->
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="16">
+            <StackPanel>
+                <TextBlock Text="AISC 358-16 ConXL Connection Verification (Ch. 10)" Style="{StaticResource SectionTitleStyle}"/>
+
+                <!-- Beam Section Card -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Beam Section" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Shape:" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <ComboBox ItemsSource="{Binding BeamShapeOptions}" SelectedIndex="{Binding SelectedBeamShapeIndex}"
+                                      Style="{StaticResource FluentComboBoxStyle}" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="d (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding BeamD, StringFormat=F3}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="0,0,4,0">
+                                <TextBlock Text="bf (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding BeamBf, StringFormat=F3}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Zx (in3):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding BeamZx, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="tf (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding BeamTf, StringFormat=F3}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="tw (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding BeamTw, StringFormat=F3}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Column Box Card -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Column Box (16-in. Concrete-Filled HSS)" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+
+                        <TextBlock Text="D = 16.0 in (fixed)" Style="{StaticResource LabelStyle}" Margin="0,0,0,4"/>
+
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="t_col (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding TCol, StringFormat=F3}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Fy (ksi):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding ColFy, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="Fu (ksi):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding ColFu, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="f'c (ksi):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding Fc, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="Concrete wt (pcf):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding ConcreteWeight, StringFormat=F0}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="t_leg_CC (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding TLegCC, StringFormat=F3}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- RBS Geometry Card -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="RBS Geometry (Optional)" Style="{StaticResource StrongLabelStyle}" FontSize="14" Grid.Column="0"/>
+                            <CheckBox Content="Use RBS" IsChecked="{Binding UseRbs}" VerticalAlignment="Center" Grid.Column="1"/>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,4" Visibility="{Binding UseRbs, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="a (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding RbsA, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="0,0,4,0">
+                                <TextBlock Text="b (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding RbsB, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="c (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding RbsC, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Design Parameters Card -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Design Parameters" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="Span (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding Span, StringFormat=F0}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="System Type:" Style="{StaticResource LabelStyle}"/>
+                                <ComboBox ItemsSource="{Binding SystemTypeOptions}" SelectedIndex="{Binding SystemTypeIndex}"
+                                          Style="{StaticResource FluentComboBoxStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="Story above (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding StoryAbove, StringFormat=F0}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Story below (in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding StoryBelow, StringFormat=F0}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="Pu (kips):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding Pu, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="FEXX (ksi):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding FEXX, StringFormat=F0}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Loads Card -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Gravity Loads" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="D (kips):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding LoadD, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="0,0,4,0">
+                                <TextBlock Text="L (kips):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding LoadL, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="S (kips):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding LoadS, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="f1 (live load factor):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding F1, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Vu (kips, 0=auto):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding Vu, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Beam Material Card -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Beam Material" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="Fy (ksi):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding BeamFy, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Fu (ksi):" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding BeamFu, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,4,0">
+                                <TextBlock Text="Ry:" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding BeamRy, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Rt:" Style="{StaticResource LabelStyle}"/>
+                                <TextBox Text="{Binding BeamRt, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Calculate Button -->
+                <Button Content="Start Check" Command="{Binding CalculateCommand}"
+                        Style="{StaticResource PrimaryButtonStyle}" HorizontalAlignment="Stretch" Margin="0,0,0,16"/>
+
+                <!-- Results Summary Card -->
+                <Border Style="{StaticResource CardStyle}" Visibility="{Binding HasResult, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel>
+                        <TextBlock Text="Check Results" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+
+                        <!-- Overall -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Overall: " Style="{StaticResource StrongLabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding OverallStatus}" FontWeight="Bold" FontSize="14"
+                                       Foreground="{Binding OverallStatusColor}" Grid.Column="1"/>
+                        </Grid>
+
+                        <!-- Key results -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                                <TextBlock Text="M_pr (kip-in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock Text="{Binding Mpr, StringFormat={}{0:F0}}" Style="{StaticResource StrongLabelStyle}" FontSize="13"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="0,0,16,0">
+                                <TextBlock Text="V_h (kips):" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock Text="{Binding Vh, StringFormat={}{0:F1}}" Style="{StaticResource StrongLabelStyle}" FontSize="13"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Margin="0,0,16,0">
+                                <TextBlock Text="M_bolts (kip-in):" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock Text="{Binding MBolts, StringFormat={}{0:F0}}" Style="{StaticResource StrongLabelStyle}" FontSize="13"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Separator Margin="0,4"/>
+
+                        <!-- Individual checks -->
+                        <Grid Margin="0,4,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Prequalification" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding PrequalificationStatus}" FontWeight="Bold" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,2,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Column-Beam Ratio" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding ColumnBeamStatus}" FontWeight="Bold" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,2,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Bolt Tension (Step 5)" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding BoltTensionStatus}" FontWeight="Bold" Grid.Column="1" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding BoltTensionRatio, StringFormat='{}{0:F3}'}" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                        </Grid>
+                        <Grid Margin="0,2,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Bolt Shear/Slip (Step 6)" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding BoltShearStatus}" FontWeight="Bold" Grid.Column="1" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding BoltShearRatio, StringFormat='{}{0:F3}'}" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                        </Grid>
+                        <Grid Margin="0,2,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Beam Shear (Step 7)" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding BeamShearStatus}" FontWeight="Bold" Grid.Column="1" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding BeamShearRatio, StringFormat='{}{0:F3}'}" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                        </Grid>
+                        <Grid Margin="0,2,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="CWX Weld (Step 8)" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding CwxWeldStatus}" FontWeight="Bold" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,2,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="CC Weld (Step 9)" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding CcWeldStatus}" FontWeight="Bold" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,2,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Panel Zone (Steps 10-11)" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding PanelZoneStatus}" FontWeight="Bold" Grid.Column="1" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding PanelZoneRatio, StringFormat='{}{0:F3}'}" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Right: Detailed Calculation Process -->
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Margin="16">
+            <StackPanel>
+                <TextBlock Text="Detailed Calculation Process" Style="{StaticResource SectionTitleStyle}"/>
+
+                <Border Style="{StaticResource CardStyle}">
+                    <Border Background="#F5F5F5" BorderBrush="{StaticResource FluentBorderBrush}" BorderThickness="1"
+                            CornerRadius="4" Padding="12">
+                        <TextBox Text="{Binding ProcessText}"
+                                 IsReadOnly="True"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 MinHeight="600"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 FontFamily="Consolas"
+                                 FontSize="13"
+                                 VerticalScrollBarVisibility="Auto"/>
+                    </Border>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

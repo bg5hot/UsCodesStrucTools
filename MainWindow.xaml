@@ -1,0 +1,291 @@
+<Window x:Class="SpectrumComparison.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpectrumComparison"
+        mc:Ignorable="d"
+        Title="美标设计实用工具集 v1.0 作者 王昕@gad" 
+        Height="900" Width="1400"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource FluentBackgroundBrush}">
+
+    <Window.Resources>
+        <DataTemplate x:Key="SpectrumViewTemplate">
+            <local:SpectrumView/>
+        </DataTemplate>
+        <DataTemplate x:Key="ArtificialWaveViewTemplate">
+            <local:ArtificialWaveView/>
+        </DataTemplate>
+        <DataTemplate x:Key="WindConversionViewTemplate">
+            <local:WindConversionView/>
+        </DataTemplate>
+        <DataTemplate x:Key="GustEffectFactorViewTemplate">
+            <local:GustEffectFactorView/>
+        </DataTemplate>
+        <DataTemplate x:Key="WindSimulationViewTemplate">
+            <local:WindSimulationView/>
+        </DataTemplate>
+        <DataTemplate x:Key="BeamDesignViewTemplate">
+            <local:BeamDesignView/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColumnDesignViewTemplate">
+            <local:ColumnDesignView/>
+        </DataTemplate>
+        <DataTemplate x:Key="CircularColumnDesignViewTemplate">
+            <local:CircularColumnDesignView/>
+        </DataTemplate>
+        <DataTemplate x:Key="PunchingShearViewTemplate">
+            <local:PunchingShearView/>
+        </DataTemplate>
+        <DataTemplate x:Key="DevelopmentLengthViewTemplate">
+            <local:DevelopmentLengthView/>
+        </DataTemplate>
+        <DataTemplate x:Key="SteelBeamViewTemplate">
+            <local:SteelBeamView/>
+        </DataTemplate>
+        <DataTemplate x:Key="SteelTensionViewTemplate">
+            <local:SteelTensionView/>
+        </DataTemplate>
+        <DataTemplate x:Key="SteelCompressionViewTemplate">
+            <local:SteelCompressionView/>
+        </DataTemplate>
+        <DataTemplate x:Key="DuctilityClassificationViewTemplate">
+            <local:DuctilityClassificationView/>
+        </DataTemplate>
+        <DataTemplate x:Key="StrongColumnWeakBeamViewTemplate">
+            <local:StrongColumnWeakBeamView/>
+        </DataTemplate>
+        <DataTemplate x:Key="BeamStabilityBracingViewTemplate">
+            <local:BeamStabilityBracingView/>
+        </DataTemplate>
+        <DataTemplate x:Key="PanelZoneViewTemplate">
+            <local:PanelZoneView/>
+        </DataTemplate>
+        <DataTemplate x:Key="RbsViewTemplate">
+            <local:RbsView/>
+        </DataTemplate>
+        <DataTemplate x:Key="BfpViewTemplate">
+            <local:BfpView/>
+        </DataTemplate>
+        <DataTemplate x:Key="EndplateViewTemplate">
+            <local:EndplateView/>
+        </DataTemplate>
+        <DataTemplate x:Key="WufwViewTemplate">
+            <local:WufwView/>
+        </DataTemplate>
+        <DataTemplate x:Key="KbbViewTemplate">
+            <local:KbbView/>
+        </DataTemplate>
+        <DataTemplate x:Key="ConxlViewTemplate">
+            <local:ConxlView/>
+        </DataTemplate>
+        <DataTemplate x:Key="SideplateViewTemplate">
+            <local:SideplateView/>
+        </DataTemplate>
+        <DataTemplate x:Key="SstViewTemplate">
+            <local:SstView/>
+        </DataTemplate>
+        <DataTemplate x:Key="DoubleteeViewTemplate">
+            <local:DoubleteeView/>
+        </DataTemplate>
+        <DataTemplate x:Key="SlottedwebViewTemplate">
+            <local:SlottedwebView/>
+        </DataTemplate>
+        <DataTemplate x:Key="WeChatViewTemplate">
+            <local:WeChatView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Navigation Panel -->
+        <Border Grid.Column="0" Width="200" Background="White" BorderBrush="{StaticResource FluentBorderBrush}" BorderThickness="0,0,1,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="点击规范展开对应工具集列表" FontSize="14" FontWeight="Bold" Margin="16,20,16,10" Foreground="{StaticResource FluentTextBrush}"/>
+                    <Separator Margin="16,0"/>
+
+                    <!-- ASCE 7 Category -->
+                    <Expander Header="ASCE 7" IsExpanded="False" Margin="8,8,8,0"
+                              FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource FluentTextBrush}">
+                        <StackPanel>
+                            <Button x:Name="btnSpectrum" Click="BtnSpectrum_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="反应谱比较" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnArtificialWave" Click="BtnArtificialWave_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="地震人工波模拟" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnWind" Click="BtnWind_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="风速转换" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnGust" Click="BtnGust_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="阵风响应因子G" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnWindSim" Click="BtnWindSim_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="脉动风模拟" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- ACI 318 Category -->
+                    <Expander Header="ACI 318" IsExpanded="False" Margin="8,4,8,0"
+                              FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource FluentTextBrush}">
+                        <StackPanel>
+                            <Button x:Name="btnBeam" Click="BtnBeam_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="单筋混凝土梁" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnColumn" Click="BtnColumn_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="混凝土矩形柱" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnCircularColumn" Click="BtnCircularColumn_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="混凝土圆形柱" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnPunchingShear" Click="BtnPunchingShear_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="双向板抗冲切" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnDevelopmentLength" Click="BtnDevelopmentLength_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="钢筋锚固长度" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- AISC 360 Category -->
+                    <Expander Header="AISC 360" IsExpanded="False" Margin="8,4,8,0"
+                              FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource FluentTextBrush}">
+                        <StackPanel>
+                            <Button x:Name="btnSteelBeam" Click="BtnSteelBeam_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="构件抗弯抗剪验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnSteelTension" Click="BtnSteelTension_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="构件抗拉验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnSteelCompression" Click="BtnSteelCompression_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="构件抗压验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- AISC 341 Category -->
+                    <Expander Header="AISC 341" IsExpanded="False" Margin="8,4,8,0"
+                              FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource FluentTextBrush}">
+                        <StackPanel>
+                            <Button x:Name="btnDuctilityClassification" Click="BtnDuctilityClassification_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="延性分类与宽厚比校核" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnStrongColumnWeakBeam" Click="BtnStrongColumnWeakBeam_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="SMF强柱弱梁校核" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnBeamStabilityBracing" Click="BtnBeamStabilityBracing_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="梁侧向稳定支撑验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnPanelZone" Click="BtnPanelZone_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="梁柱节点剪切区验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- AISC 358 Category -->
+                    <Expander Header="AISC 358" IsExpanded="False" Margin="8,4,8,0"
+                              FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource FluentTextBrush}">
+                        <StackPanel>
+                            <Button x:Name="btnRbs" Click="BtnRbs_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="RBS连接验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnEndplate" Click="BtnEndplate_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="End-Plate连接验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnBfp" Click="BtnBfp_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="BFP连接验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnWufw" Click="BtnWufw_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="WUF-W连接验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnKbb" Click="BtnKbb_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="KBB连接验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnConxl" Click="BtnConxl_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="ConXL连接验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnSideplate" Click="BtnSideplate_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="SidePlate连接验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnSst" Click="BtnSst_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="SST连接验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnDoubletee" Click="BtnDoubletee_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="DoubleTee连接验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btnSlottedweb" Click="BtnSlottedweb_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="0,2,0,0">
+                                <TextBlock Text="SlottedWeb连接验算" FontSize="13" VerticalAlignment="Center"/>
+                            </Button>
+                        </StackPanel>
+                    </Expander>
+
+                    <Separator Margin="16,12"/>
+
+                    <Button x:Name="btnWeChat" Click="BtnWeChat_Click" Margin="8,4,8,8"
+                            Cursor="Hand" BorderThickness="0">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="6" Padding="12,10" Margin="0"
+                                        Background="#FF0078D4" x:Name="WeChatBorder">
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="1" BlurRadius="6" Opacity="0.25" Color="#0078D4"/>
+                                    </Border.Effect>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock Text="&#xE8F1;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                                   Foreground="White" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                        <TextBlock Text="关注公众号" FontSize="14" FontWeight="SemiBold"
+                                                   Foreground="White" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="WeChatBorder" Property="Background" Value="#FF106EBE"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Content Area -->
+        <ContentControl Grid.Column="1" x:Name="contentControl" ContentTemplate="{StaticResource SpectrumViewTemplate}">
+            <local:SpectrumView/>
+        </ContentControl>
+    </Grid>
+</Window>

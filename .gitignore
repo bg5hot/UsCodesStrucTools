@@ -1,0 +1,55 @@
+# ===== .NET / C# 构建产物 =====
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+# ===== IDE / 编辑器 =====
+.vs/
+.vscode/
+*.user
+*.suo
+
+# ===== AI 助手 / 工具临时目录 =====
+.claude/
+.workbuddy/
+
+# ===== 日志 =====
+debug.log
+
+# ===== Python 相关（与 C# 项目无关）=====
+PythonWebUI/
+AISC358/
+__pycache__/
+*.pyc
+.venv/
+venv/
+dist/
+build/
+*.spec
+requirements.txt
+
+# ===== 规范电子书 / 转换出来的书稿（非代码）=====
+AISC.Steel.Construction.Manual.16th.edition/
+
+# ===== 演示材料、图片素材（非代码）=====
+slides/
+create_pptx.js
+USCodeTools介绍.pptx
+USCodeTools介绍.pdf
+
+# ===== 规范转换文本（参考读物，非代码）=====
+AISC360-16.md
+Aisc-341-16.md
+
+# ===== 开发过程的临时/过程文件 =====
+request.md
+review/
+verify.md
+AISC341 doc/
+CLAUDE.md
+
+# ===== 发布包 =====
+*.zip
+python代码（EOM）/

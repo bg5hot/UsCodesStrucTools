@@ -1,0 +1,335 @@
+<UserControl x:Class="SpectrumComparison.StrongColumnWeakBeamView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SpectrumComparison"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="1200">
+
+    <UserControl.DataContext>
+        <local:StrongColumnWeakBeamViewModel/>
+    </UserControl.DataContext>
+
+    <Grid Background="{StaticResource FluentBackgroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left: Input Parameters -->
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="16">
+            <StackPanel>
+                <TextBlock Text="AISC 341-16 §E3.4a SMF 强柱弱梁校核" Style="{StaticResource SectionTitleStyle}"/>
+
+                <!-- Design Method -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Design Method" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Method:" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <ComboBox ItemsSource="{Binding MethodOptions}" SelectedIndex="{Binding MethodIndex}"
+                                      Style="{StaticResource FluentComboBoxStyle}" Grid.Column="1"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Column Above -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Column Above (上柱)" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+
+                        <!-- Source toggle -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Source:" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <ComboBox ItemsSource="{Binding SourceOptions}" SelectedIndex="{Binding ColumnSourceIndex}"
+                                      Style="{StaticResource FluentComboBoxStyle}" Grid.Column="1"/>
+                        </Grid>
+
+                        <!-- Database mode -->
+                        <StackPanel Visibility="{Binding IsColumnDatabase, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Shape:" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                                <ComboBox ItemsSource="{Binding ColumnShapeOptions}" SelectedIndex="{Binding SelectedColumnShapeIndex}"
+                                          Style="{StaticResource FluentComboBoxStyle}" Grid.Column="1"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Zc (in³):" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                                <TextBox Text="{Binding ZcAbove, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}" IsReadOnly="True"
+                                         Grid.Column="1" Margin="0,0,8,0"/>
+                                <TextBlock Text="Ag (in²):" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                                <TextBox Text="{Binding AgAbove, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}" IsReadOnly="True"
+                                         Grid.Column="3"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Direct input mode -->
+                        <StackPanel Visibility="{Binding IsColumnDirect, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Zc (in³):" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                                <TextBox Text="{Binding ZcAbove, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}" Grid.Column="1" Margin="0,0,8,0"/>
+                                <TextBlock Text="Ag (in²):" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                                <TextBox Text="{Binding AgAbove, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}" Grid.Column="3"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Fyc and Pr always visible -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Fyc (ksi):" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBox Text="{Binding FycAbove, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}" Grid.Column="1" Margin="0,0,8,0"/>
+                            <TextBlock Text="Pr (kips):" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                            <TextBox Text="{Binding PrAbove, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}" Grid.Column="3"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Column Below -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Column Below (下柱)" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+
+                        <CheckBox Content="Same as Column Above (同上柱)" IsChecked="{Binding SameColumnBelow}"
+                                  Margin="0,0,0,8"/>
+
+                        <StackPanel Visibility="{Binding ShowColumnBelow, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Zc (in³):" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                                <TextBox Text="{Binding ZcBelow, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}" Grid.Column="1" Margin="0,0,8,0"/>
+                                <TextBlock Text="Ag (in²):" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                                <TextBox Text="{Binding AgBelow, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}" Grid.Column="3"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Fyc (ksi):" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                                <TextBox Text="{Binding FycBelow, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}" Grid.Column="1" Margin="0,0,8,0"/>
+                                <TextBlock Text="Pr (kips):" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                                <TextBox Text="{Binding PrBelow, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}" Grid.Column="3"/>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Beam Left -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Beam Left (左梁)" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+
+                        <!-- Source toggle -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Source:" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <ComboBox ItemsSource="{Binding SourceOptions}" SelectedIndex="{Binding BeamSourceIndex}"
+                                      Style="{StaticResource FluentComboBoxStyle}" Grid.Column="1"/>
+                        </Grid>
+
+                        <!-- Database mode: shape + Mpr auto-calc -->
+                        <StackPanel Visibility="{Binding IsBeamDatabase, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Shape:" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                                <ComboBox ItemsSource="{Binding BeamShapeOptions}" SelectedIndex="{Binding SelectedBeamShapeIndex}"
+                                          Style="{StaticResource FluentComboBoxStyle}" Grid.Column="1"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Fyb (ksi):" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                                <TextBox Text="{Binding BeamFyb, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}" Grid.Column="1" Margin="0,0,8,0"/>
+                                <TextBlock Text="Ry:" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                                <TextBox Text="{Binding BeamRy, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}" Grid.Column="3" Margin="0,0,8,0"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Cpr:" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                                <TextBox Text="{Binding BeamCpr, StringFormat=F2}" Style="{StaticResource FluentNumericStyle}" Grid.Column="1" Margin="0,0,8,0"/>
+                                <CheckBox Content="Auto Ry" IsChecked="{Binding BeamAutoRy}" VerticalAlignment="Center" Grid.Column="2"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Mpr (kip-in):" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                                <TextBox Text="{Binding MprLeft, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}" IsReadOnly="True" Grid.Column="1"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Direct input mode -->
+                        <StackPanel Visibility="{Binding IsBeamDirect, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Mpr (kip-in):" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                                <TextBox Text="{Binding MprLeft, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}" Grid.Column="1" Margin="0,0,8,0"/>
+                                <TextBlock Text="Mv (kip-in):" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                                <TextBox Text="{Binding MvLeft, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}" Grid.Column="3"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Mv always visible in database mode -->
+                        <Grid Visibility="{Binding IsBeamDatabase, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Mv (kip-in):" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBox Text="{Binding MvLeft, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}" Grid.Column="1"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Beam Right -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Beam Right (右梁)" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+
+                        <CheckBox Content="Same as Beam Left (同左梁)" IsChecked="{Binding SameBeamRight}"
+                                  Margin="0,0,0,8"/>
+
+                        <StackPanel Visibility="{Binding ShowBeamRight, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Mpr (kip-in):" Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                                <TextBox Text="{Binding MprRight, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}" Grid.Column="1" Margin="0,0,8,0"/>
+                                <TextBlock Text="Mv (kip-in):" Style="{StaticResource LabelStyle}" Grid.Column="2"/>
+                                <TextBox Text="{Binding MvRight, StringFormat=F1}" Style="{StaticResource FluentNumericStyle}" Grid.Column="3"/>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Calculate Button -->
+                <Button Content="Start Check" Command="{Binding CalculateCommand}"
+                        Style="{StaticResource PrimaryButtonStyle}" HorizontalAlignment="Stretch" Margin="0,0,0,16"/>
+
+                <!-- Results Summary -->
+                <Border Style="{StaticResource CardStyle}" Visibility="{Binding HasResult, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel>
+                        <TextBlock Text="Check Summary" Style="{StaticResource StrongLabelStyle}" FontSize="14" Margin="0,0,0,12"/>
+
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="ΣM*pc = " Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding SigmaMpc, StringFormat={}{0:F1} kip-in}" Style="{StaticResource StrongLabelStyle}" Grid.Column="1"/>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="ΣM*pb = " Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding SigmaMpb, StringFormat={}{0:F1} kip-in}" Style="{StaticResource StrongLabelStyle}" Grid.Column="1"/>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Ratio  = " Style="{StaticResource LabelStyle}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding Ratio, StringFormat={}{0:F3}}" Style="{StaticResource StrongLabelStyle}" Grid.Column="1"/>
+                        </Grid>
+
+                        <Separator Margin="0,4"/>
+
+                        <TextBlock Text="{Binding StatusText}" Foreground="{Binding StatusForeground}"
+                                   FontWeight="Bold" FontSize="16" Margin="0,8,0,0"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Right: Detailed Calculation Process -->
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Margin="16">
+            <StackPanel>
+                <TextBlock Text="Detailed Calculation Process" Style="{StaticResource SectionTitleStyle}"/>
+
+                <Border Style="{StaticResource CardStyle}">
+                    <Border Background="#F5F5F5" BorderBrush="{StaticResource FluentBorderBrush}" BorderThickness="1"
+                            CornerRadius="4" Padding="12">
+                        <TextBox Text="{Binding ProcessText}"
+                                 IsReadOnly="True"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 MinHeight="600"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 FontFamily="Consolas"
+                                 FontSize="13"
+                                 VerticalScrollBarVisibility="Auto"/>
+                    </Border>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
